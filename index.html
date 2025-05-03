@@ -15,7 +15,8 @@
     <!-- Header -->
     <header>
         <div class="logo">Portfolio</div>
-        <nav>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav id="navbar">
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -23,10 +24,11 @@
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="files/Kedar Dhumal New Resume.pdf" class="resume-btn" download>Resume</a></li>
-
             </ul>
         </nav>
     </header>
+    
+    
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -436,3 +438,11 @@
 </body>
 
 </html>
+
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('navbar');
+        nav.classList.toggle('active');
+    }
+</script>
+
