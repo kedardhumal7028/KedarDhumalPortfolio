@@ -677,3 +677,197 @@ header {
         text-align: center;
     }
 }
+
+/* For tablets and smaller devices */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 50px;
+    }
+
+    .hero-text h3 {
+        font-size: 24px;
+    }
+
+    .hero-image img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .about {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-image,
+    .about-text {
+        width: 100%;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .service-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .service-image img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contact-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero {
+        flex-direction: column;
+        padding: 30px 15px;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+    }
+
+    .hero-text h3 {
+        font-size: 20px;
+    }
+
+    .hero-text h4 {
+        font-size: 16px;
+    }
+
+    .about {
+        flex-direction: column;
+        padding: 30px 15px;
+    }
+
+    .experience-section {
+        padding: 30px 15px;
+    }
+
+    .projects-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .flip-box {
+        width: 100%;
+        max-width: 90%;
+        height: auto;
+    }
+
+    .service-image img {
+        width: 100%;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 14px;
+    }
+
+    .download-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+@media (max-width: 768px) {
+    .experience-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .experience-logo img {
+        width: 150px;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .experience-details h3 {
+        font-size: 20px;
+    }
+
+    .experience-details h4 {
+        font-size: 18px;
+        margin: 15px 0;
+    }
+
+    .experience-details li {
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .experience-section h2 {
+        font-size: 28px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .projects-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .flip-box {
+        width: 90%;
+        height: auto;
+    }
+
+    .flip-box-inner {
+        transform: none !important; /* Flip बंद केला */
+    }
+
+    .flip-box-front,
+    .flip-box-back {
+        position: relative;
+        transform: none;
+        backface-visibility: visible;
+        border: 2px solid orangered;
+        border-radius: 10px;
+        height: auto;
+    }
+
+    .flip-box-front img {
+        height: auto;
+        max-height: 200px;
+    }
+
+    .flip-box-back {
+        box-shadow: none;
+        padding: 15px;
+        margin-top: 10px;
+    }
+
+    .flip-box-back ul {
+        font-size: 15px;
+    }
+
+    .flip-box-back h3 {
+        font-size: 20px;
+        text-align: center;
+    }
+}
