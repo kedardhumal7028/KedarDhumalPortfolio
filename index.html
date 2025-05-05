@@ -27,8 +27,8 @@
             </ul>
         </nav>
     </header>
-    
-    
+
+
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -427,6 +427,12 @@
             </a>
         </div>
 
+        <section id="visitor-section">
+            <h3>Total Visitors</h3>
+            <div id="visitor-counter" class="counter">0000</div>
+        </section>
+
+
         <!-- Copyright -->
         <div class="footer">
             <p>&copy; 2025 Kedar Dhumal Portfolio. All rights reserved.</p>
@@ -446,3 +452,44 @@
     }
 </script>
 
+<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCbXrWHjyc8MG9aT6C3Ix08kLgya528b2k",
+        authDomain: "portfolio-visit-counter.firebaseapp.com",
+        databaseURL: "https://portfolio-visit-counter-default-rtdb.firebaseio.com",
+        projectId: "portfolio-visit-counter",
+        storageBucket: "portfolio-visit-counter.firebasestorage.app",
+        messagingSenderId: "845602748089",
+        appId: "1:845602748089:web:e73986276d9fc4238f0d68"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+
+    const ignoreIPs = ["152.59.7.2"]; // Replace "YOUR_IP_ADDRESS" with your actual IP
+
+    // Fetch user's IP
+    fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => {
+            const userIP = data.ip;
+
+            // If NOT your IP, update visitor count
+            if (!ignoreIPs.includes(userIP)) {
+                const countRef = db.ref("visits");
+                countRef.transaction(current => (current || 0) + 1);
+            }
+
+            // Show live count
+            db.ref("visits").on("value", snapshot => {
+                document.getElementById("visitor-counter").textContent =
+                    snapshot.val().toString().padStart(4, '0');
+            });
+        });
+</script>

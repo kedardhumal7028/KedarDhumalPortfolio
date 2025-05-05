@@ -262,7 +262,7 @@ header {
 }
 
 
-  
+
 
 /*Experience Section*/
 
@@ -792,6 +792,7 @@ header {
         padding: 10px 20px;
     }
 }
+
 @media (max-width: 768px) {
     .experience-card {
         flex-direction: column;
@@ -838,7 +839,8 @@ header {
     }
 
     .flip-box-inner {
-        transform: none !important; /* Flip बंद केला */
+        transform: none !important;
+        /* Flip बंद केला */
     }
 
     .flip-box-front,
@@ -871,6 +873,7 @@ header {
         text-align: center;
     }
 }
+
 @media (max-width: 500px) {
     .social-media-list {
         justify-content: center;
@@ -916,5 +919,73 @@ header {
     .nav-links {
         flex-direction: column;
         gap: 15px;
+    }
+}
+
+/*visitor section */
+
+#visitor-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    margin: 40px auto;
+    max-width: 400px;
+
+    border-radius: 20px;
+
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+}
+
+#visitor-section:hover {
+    transform: translateY(-5px);
+}
+
+#visitor-section h3 {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.counter {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    font-family: 'Courier New', monospace;
+    animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        color: #007bff;
+    }
+
+    50% {
+        transform: scale(1.1);
+        color: #00c3ff;
+    }
+
+    100% {
+        transform: scale(1);
+        color: #007bff;
+    }
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+    #visitor-section {
+        padding: 30px 15px;
+        max-width: 90%;
+    }
+
+    .counter {
+        font-size: 2.5rem;
+    }
+
+    #visitor-section h3 {
+        font-size: 1.25rem;
     }
 }
