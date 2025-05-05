@@ -493,3 +493,68 @@
             });
         });
 </script>
+
+<script>
+    let visitorId = localStorage.getItem("visitorId");
+    if (!visitorId) {
+      visitorId = "VISITOR-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+      localStorage.setItem("visitorId", visitorId);
+    }
+
+    const visitStart = Date.now();
+
+    async function sendVisitorInfo() {
+      const ipRes = await fetch("https://ipapi.co/json/");
+      const ipData = await ipRes.json();
+
+      const userAgent = navigator.userAgent;
+      const os = navigator.platform;
+      const browser = userAgent.includes("Chrome") ? "Chrome" : userAgent;
+      const screenSize = `${screen.width}x${screen.height}`;
+      const referrer = document.referrer || "Direct";
+      const page = window.location.pathname;
+      const time = new Date().toLocaleString();
+
+      const message = `
+*🧑‍💻 New Visitor on Portfolio!*
+*🆔 Visitor ID:* ${visitorId}
+*📍 Location:* ${ipData.city}, ${ipData.region}, ${ipData.country_name}
+*🌐 IP:* ${ipData.ip}
+*🏢 ISP:* ${ipData.org}
+*🖥 Browser:* ${browser} on ${os}
+*🖼 Screen:* ${screenSize}
+*🔁 Referrer:* ${referrer}
+*📄 Page:* ${page}
+*⏰ Time:* ${time}
+`;
+
+      const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
+      const chatId = "1351615137";
+
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`);
+    }
+
+    window.addEventListener("load", sendVisitorInfo);
+
+    window.addEventListener("beforeunload", function () {
+      const visitEnd = Date.now();
+      const seconds = Math.floor((visitEnd - visitStart) / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      const duration = `${minutes}m ${sec}s`;
+
+      const leaveMsg = `
+*👋 Visitor Left Portfolio!*
+*🆔 Visitor ID:* ${visitorId}
+*⏳ Duration:* ${duration}
+*📄 Page:* ${window.location.pathname}
+`;
+
+      const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
+      const chatId = "1351615137";
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(leaveMsg)}&parse_mode=Markdown`);
+    });
+</script>
+
+  
