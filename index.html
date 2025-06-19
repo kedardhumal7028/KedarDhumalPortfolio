@@ -427,10 +427,10 @@
             </a>
         </div>
 
-        <!-- <section id="visitor-section">
+        <section id="visitor-section">
             <h3>Total Visitors</h3>
             <div id="visitor-counter" class="counter">0000</div>
-        </section> -->
+        </section>
 
 
         <!-- Copyright -->
@@ -455,6 +455,44 @@
 <!-- Firebase Scripts -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+
+<script>
+    // Firebase Auth: anonymous sign-in
+    firebase.auth().signInAnonymously()
+        .catch(function (error) {
+            console.error("Firebase Auth Error:", error.message);
+        });
+
+    // Once signed in, update counter
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            const db = firebase.database();
+
+            fetch("https://api.ipify.org?format=json")
+                .then(res => res.json())
+                .then(data => {
+                    const userIP = data.ip;
+                    const ignoreIPs = [""]; // Add your IP if needed
+
+                    if (!ignoreIPs.includes(userIP)) {
+                        const countRef = db.ref("visits");
+                        countRef.transaction(current => (current || 0) + 1);
+                    }
+
+                    db.ref("visits").on("value", snapshot => {
+                        const counter = document.getElementById("visitor-counter");
+                        if (counter) {
+                            counter.textContent = snapshot.val().toString().padStart(4, '0');
+                        }
+                    });
+                });
+        } else {
+            console.warn("User not signed in.");
+        }
+    });
+</script>
+
 
 <script>
 
