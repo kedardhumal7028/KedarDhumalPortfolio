@@ -23,7 +23,7 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="files/Kedar Dhumal New Resume.pdf" class="resume-btn" download>Resume</a></li>
+                <li><a href="Files/Kedar Dhumal New Resume.pdf" class="resume-btn" download>Resume</a></li>
             </ul>
         </nav>
     </header>
@@ -422,7 +422,7 @@
 
         <!-- Resume Section -->
         <div class="resume-section">
-            <a href="files/Kedar Dhumal New Resume.pdf" download class="download-btn">
+            <a href="Files/Kedar Dhumal New Resume.pdf" download class="download-btn">
                 <i class="fa fa-download"></i> Download Resume
             </a>
         </div>
@@ -475,62 +475,62 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-firebase.auth().signInAnonymously()
-  .then(() => {
-    const db = firebase.database();
-    const countRef = db.ref("visits");
+    firebase.auth().signInAnonymously()
+        .then(() => {
+            const db = firebase.database();
+            const countRef = db.ref("visits");
 
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        const userIP = data.ip;
-        const ignoreIPs = [""]; // skip IP logic
+            fetch("https://api.ipify.org?format=json")
+                .then(res => res.json())
+                .then(data => {
+                    const userIP = data.ip;
+                    const ignoreIPs = [""]; // skip IP logic
 
-        if (!ignoreIPs.includes(userIP)) {
-          countRef.once("value")
-            .then(snapshot => {
-              const current = snapshot.val() || 0;
-              countRef.set(current + 1); // simple set
-            });
-        }
+                    if (!ignoreIPs.includes(userIP)) {
+                        countRef.once("value")
+                            .then(snapshot => {
+                                const current = snapshot.val() || 0;
+                                countRef.set(current + 1); // simple set
+                            });
+                    }
 
-        db.ref("visits").on("value", snapshot => {
-          const counter = document.getElementById("visitor-counter");
-          if (counter) {
-            counter.textContent = snapshot.val().toString().padStart(4, '0');
-          }
+                    db.ref("visits").on("value", snapshot => {
+                        const counter = document.getElementById("visitor-counter");
+                        if (counter) {
+                            counter.textContent = snapshot.val().toString().padStart(4, '0');
+                        }
+                    });
+                });
+        })
+        .catch(error => {
+            console.error("Firebase Auth Error:", error.message);
         });
-      });
-  })
-  .catch(error => {
-    console.error("Firebase Auth Error:", error.message);
-  });
 
 
-    </script>
+</script>
 
 <script>
     let visitorId = localStorage.getItem("visitorId");
     if (!visitorId) {
-      visitorId = "VISITOR-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
-      localStorage.setItem("visitorId", visitorId);
+        visitorId = "VISITOR-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+        localStorage.setItem("visitorId", visitorId);
     }
 
     const visitStart = Date.now();
 
     async function sendVisitorInfo() {
-      const ipRes = await fetch("https://ipapi.co/json/");
-      const ipData = await ipRes.json();
+        const ipRes = await fetch("https://ipapi.co/json/");
+        const ipData = await ipRes.json();
 
-      const userAgent = navigator.userAgent;
-      const os = navigator.platform;
-      const browser = userAgent.includes("Chrome") ? "Chrome" : userAgent;
-      const screenSize = `${screen.width}x${screen.height}`;
-      const referrer = document.referrer || "Direct";
-      const page = window.location.pathname;
-      const time = new Date().toLocaleString();
+        const userAgent = navigator.userAgent;
+        const os = navigator.platform;
+        const browser = userAgent.includes("Chrome") ? "Chrome" : userAgent;
+        const screenSize = `${screen.width}x${screen.height}`;
+        const referrer = document.referrer || "Direct";
+        const page = window.location.pathname;
+        const time = new Date().toLocaleString();
 
-      const message = `
+        const message = `
 *🧑‍💻 New Visitor on Portfolio!*
 *🆔 Visitor ID:* ${visitorId}
 *📍 Location:* ${ipData.city}, ${ipData.region}, ${ipData.country_name}
@@ -543,33 +543,31 @@ firebase.auth().signInAnonymously()
 *⏰ Time:* ${time}
 `;
 
-      const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
-      const chatId = "1351615137";
+        const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
+        const chatId = "1351615137";
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`);
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`);
     }
 
     window.addEventListener("load", sendVisitorInfo);
 
     window.addEventListener("beforeunload", function () {
-      const visitEnd = Date.now();
-      const seconds = Math.floor((visitEnd - visitStart) / 1000);
-      const minutes = Math.floor(seconds / 60);
-      const sec = seconds % 60;
-      const duration = `${minutes}m ${sec}s`;
+        const visitEnd = Date.now();
+        const seconds = Math.floor((visitEnd - visitStart) / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        const duration = `${minutes}m ${sec}s`;
 
-      const leaveMsg = `
+        const leaveMsg = `
 *👋 Visitor Left Portfolio!*
 *🆔 Visitor ID:* ${visitorId}
 *⏳ Duration:* ${duration}
 *📄 Page:* ${window.location.pathname}
 `;
 
-      const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
-      const chatId = "1351615137";
+        const botToken = "8092200352:AAGRC_uhL7Dl1R_rcd6-MMe6LldjRjDCVHw";
+        const chatId = "1351615137";
 
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(leaveMsg)}&parse_mode=Markdown`);
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(leaveMsg)}&parse_mode=Markdown`);
     });
 </script>
-
-  
