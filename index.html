@@ -455,43 +455,10 @@
 <!-- Firebase Scripts -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script> <!-- ✅ Add this -->
 
 
-<script>
-    // Firebase Auth: anonymous sign-in
-    firebase.auth().signInAnonymously()
-        .catch(function (error) {
-            console.error("Firebase Auth Error:", error.message);
-        });
 
-    // Once signed in, update counter
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            const db = firebase.database();
-
-            fetch("https://api.ipify.org?format=json")
-                .then(res => res.json())
-                .then(data => {
-                    const userIP = data.ip;
-                    const ignoreIPs = [""]; // Add your IP if needed
-
-                    if (!ignoreIPs.includes(userIP)) {
-                        const countRef = db.ref("visits");
-                        countRef.transaction(current => (current || 0) + 1);
-                    }
-
-                    db.ref("visits").on("value", snapshot => {
-                        const counter = document.getElementById("visitor-counter");
-                        if (counter) {
-                            counter.textContent = snapshot.val().toString().padStart(4, '0');
-                        }
-                    });
-                });
-        } else {
-            console.warn("User not signed in.");
-        }
-    });
-</script>
 
 
 <script>
@@ -508,29 +475,39 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+firebase.auth().signInAnonymously()
+  .then(() => {
+    const db = firebase.database();
+    const countRef = db.ref("visits");
 
-
-    const ignoreIPs = [""]; // Replace "YOUR_IP_ADDRESS" with your actual IP
-
-    // Fetch user's IP
     fetch("https://api.ipify.org?format=json")
-        .then(res => res.json())
-        .then(data => {
-            const userIP = data.ip;
+      .then(res => res.json())
+      .then(data => {
+        const userIP = data.ip;
+        const ignoreIPs = [""]; // skip IP logic
 
-            // If NOT your IP, update visitor count
-            if (!ignoreIPs.includes(userIP)) {
-                const countRef = db.ref("visits");
-                countRef.transaction(current => (current || 0) + 1);
-            }
-
-            // Show live count
-            db.ref("visits").on("value", snapshot => {
-                document.getElementById("visitor-counter").textContent =
-                    snapshot.val().toString().padStart(4, '0');
+        if (!ignoreIPs.includes(userIP)) {
+          countRef.once("value")
+            .then(snapshot => {
+              const current = snapshot.val() || 0;
+              countRef.set(current + 1); // simple set
             });
+        }
+
+        db.ref("visits").on("value", snapshot => {
+          const counter = document.getElementById("visitor-counter");
+          if (counter) {
+            counter.textContent = snapshot.val().toString().padStart(4, '0');
+          }
         });
-</script>
+      });
+  })
+  .catch(error => {
+    console.error("Firebase Auth Error:", error.message);
+  });
+
+
+    </script>
 
 <script>
     let visitorId = localStorage.getItem("visitorId");
