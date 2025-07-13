@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kedardhumal7028.github.io/KedarDhumalPortfolio/sitemap.xml
